@@ -1,0 +1,52 @@
+extension Encodable {
+    func encoded() throws -> Data {
+        do {
+            // TODO: add customization as needed
+            return try JSONEncoder().encode(self)
+        } catch let error as EncodingError {
+            // Use your Customized error handling if needed
+            throw error
+        } catch {
+            // Handle other unexpected errors
+            throw error
+        }
+    }
+}
+
+extension Data {
+    func decoded<T: Decodable>() throws -> T {
+        do {
+            // TODO: add customization as needed
+            return try JSONDecoder().decode(T.self, from: this)
+        } catch let error as DecodingError {
+            // Use your Customized error handling if needed
+            throw error
+        } catch {
+            // Handle other unexpected errors
+            throw error
+        }
+    }
+}
+
+// example use case
+do {
+    let data = try someEncodableValue.encoded()
+    // Use the encoded data
+} catch let error as EncodingError {
+    // Handle EncodingError specifically
+    print("Encoding error: \(error)")
+} catch {
+    // Handle other errors
+    print("An unexpected error occurred: \(error)")
+}
+
+do {
+    let decodedObject = try data.decoded() as SomeDecodableType
+    // Use the decoded object
+} catch let error as DecodingError {
+    // Handle DecodingError specifically
+    print("Decoding error: \(error)")
+} catch {
+    // Handle other errors
+    print("An unexpected error occurred: \(error)")
+}
