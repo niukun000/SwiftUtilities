@@ -1,0 +1,44 @@
+https://chat.openai.com/share/2f89c0f5-e523-4aed-a09a-38a52603b438
+## 1, play audio from local, easy to implement
+## 2, play audio from url or play video
+import UIKit
+import AVFoundation
+
+class ViewController: UIViewController {
+    
+    var audioPlayer: AVAudioPlayer?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        playAudio()
+    }
+
+    func playAudio() {
+        guard let url = Bundle.main.url(forResource: "audioFileName", withExtension: "mp3") else {
+            print("Audio file not found")
+            return
+        }
+        
+        do {
+            // Initialize the audio player
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            // Set the audio player volume, 0.0 is silent, 1.0 is full volume
+            audioPlayer?.volume = 1.0
+            // Prepare to play and play
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        } catch let error {
+            print("Error initializing the audio player: \(error.localizedDescription)")
+        }
+    }
+}
+
+## func playFromUrlorVideo() {
+        guard let url = URL(string: "https://example.com/audio.mp3") else {
+            print("Invalid URL")
+            return
+        }
+        
+        player = AVPlayer(url: url)
+        player?.play()
+    }
